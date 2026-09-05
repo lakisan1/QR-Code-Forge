@@ -1,8 +1,8 @@
 {
   "name": "qrcodeforge",
   "productName": "QR Code Forge",
-  "version": "1.0.0",
-  "description": "Modern QR code forge: styled dots and gradients, logo/photo/emoji in the middle, WiFi/vCard/WhatsApp payloads, PNG/JPG/SVG export. Ships as a Windows installer and Linux Flatpak/AppImage.",
+  "version": "1.1.0",
+  "description": "Modern QR code forge: styled dots and gradients, logo/photo/emoji in the middle, WiFi/vCard/WhatsApp payloads, PNG/JPG/SVG export, batch ZIP generation. Ships as a Windows installer and Linux Flatpak/AppImage.",
   "author": "lakisan1",
   "license": "MIT",
   "homepage": "https://github.com/lakisan1/QR-Code-Forge#readme",
@@ -41,5 +41,8 @@
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
   }
 }

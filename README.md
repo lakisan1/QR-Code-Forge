@@ -16,6 +16,8 @@ Modern desktop QR code / 2D-barcode generator built with **Electron + Vite + Typ
   geo location, WhatsApp
 - **Extra 2D barcodes** — Aztec and Data Matrix
 - **Export** — PNG / JPG / SVG at 256–4096 px, or copy the PNG straight to the clipboard
+- **Batch mode** — paste or import a list (one code per line, or a `name,content` CSV)
+  and export every code at once as a ZIP archive, each rendered with the current style
 - **History** — recent codes are remembered and one click away
 - **Themes** — modern dark and light UI, fully i18n-ready string table (`src/i18n/en.json`)
 

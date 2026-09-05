@@ -1,11 +1,12 @@
 import './style.css'
-import type { BarcodeKind, HistoryEntry, StyleState } from './types'
-import { store } from './core/store'
+import type { BarcodeKind, HistoryEntry } from './types'
+import { store, effectiveStyle } from './core/store'
 import { buildPayload, CONTENT_TYPES, typeDef } from './core/payload'
 import { QRPreview, renderExport, blobToBase64 } from './core/encode'
 import { renderContentForm } from './ui/contentForms'
 import { renderStylePanel, importFileAsDataUrl } from './ui/stylePanel'
 import { renderExportRow } from './ui/exporter'
+import { openBatchModal } from './ui/batchModal'
 import { renderHistoryPanel } from './ui/historyPanel'
 import { initTheme, applyTheme } from './ui/theme'
 import { t } from './i18n'
@@ -38,13 +39,6 @@ const preview = new QRPreview(qs<HTMLElement>('#qr-host'), qs<HTMLCanvasElement>
 
 function currentPayload() {
   return buildPayload(store.activeType, store.values[store.activeType])
-}
-
-function effectiveStyle(): StyleState {
-  // center art forces error-correction H so codes stay scannable
-  const hasArt = store.style.logo.kind !== 'none' && !!store.style.logo.dataUrl
-  if (hasArt) return { ...store.style, ecLevel: 'H' }
-  return store.style
 }
 
 function setStatus(message: string): void {
@@ -153,7 +147,7 @@ async function refreshPreview(): Promise<void> {
   payloadLabel.textContent = 'payload'
 
   try {
-    const info = await preview.update(store.barcode, p.text, effectiveStyle(), PREVIEW_SIZE)
+    const info = await preview.update(store.barcode, p.text, effectiveStyle(store.style), PREVIEW_SIZE)
     if (info) {
       modulesLine.textContent =
         info.cols === info.rows
@@ -178,7 +172,7 @@ async function doSave(): Promise<void> {
     const blob = await renderExport(
       store.barcode,
       p.text,
-      effectiveStyle(),
+      effectiveStyle(store.style),
       store.exportSize,
       store.exportFormat,
       store.exportQuality
@@ -210,7 +204,7 @@ async function doCopy(): Promise<void> {
   const p = currentPayload()
   if (!p.ok) return
   try {
-    const blob = await renderExport(store.barcode, p.text, effectiveStyle(), store.exportSize, 'png')
+    const blob = await renderExport(store.barcode, p.text, effectiveStyle(store.style), store.exportSize, 'png')
     const base64 = await blobToBase64(blob)
     const ok = await window.forge.copyImage(base64)
     if (ok) {
@@ -234,7 +228,7 @@ function pushHistory(): void {
     title: p.title,
     subtitle: p.text.slice(0, 48) + (p.text.length > 48 ? '…' : ''),
     content: { ...store.values[store.activeType] },
-    style: structuredClone(effectiveStyle())
+    style: structuredClone(effectiveStyle(store.style))
   }
   store.addHistory(entry)
 }
@@ -309,7 +303,11 @@ async function boot(): Promise<void> {
   renderForm()
   renderStylePanel(qs<HTMLElement>('#style-panel'))
   renderHistoryPanel(qs<HTMLElement>('#history-panel'), restoreEntry)
-  renderExportRow(qs<HTMLElement>('#export-row'), { onSave: () => void doSave(), onCopy: () => void doCopy() })
+  renderExportRow(qs<HTMLElement>('#export-row'), {
+    onSave: () => void doSave(),
+    onCopy: () => void doCopy(),
+    onBatch: () => openBatchModal()
+  })
   initTheme()
   applyTheme()
   setupDropZone()

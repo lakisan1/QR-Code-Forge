@@ -40,6 +40,16 @@ export const DEFAULT_STYLE: StyleState = {
   }
 }
 
+/**
+ * Style as used for rendering: center art (logo/photo/emoji) forces error
+ * correction H so the code stays scannable with its middle covered.
+ */
+export function effectiveStyle(style: StyleState): StyleState {
+  const hasArt = style.logo.kind !== 'none' && !!style.logo.dataUrl
+  if (hasArt) return { ...style, ecLevel: 'H' }
+  return style
+}
+
 function defaultValues(): Record<ContentType, Record<string, string | boolean>> {
   const out = {} as Record<ContentType, Record<string, string | boolean>>
   for (const def of CONTENT_TYPES) {

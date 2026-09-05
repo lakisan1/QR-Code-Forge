@@ -5,43 +5,47 @@
       "id": "card-96ec1aaa-6e49-4e3a-894c-36fb9dcc4e4d",
       "title": "Scaffold QR Code Forge: Electron + Vite + TypeScript",
       "description": "package.json; electron/ main.ts + preload.ts with contextIsolation & IPC bridge; src/ Vite renderer; electron-builder.yml; dev scripts (dev/build/win/linux). FINALIZED: app name \"QR Code Forge\", productName + app-id io.github.<user>.qrcodeforge (GitHub handle pending, placeholder until then); MIT LICENSE file from day one; all UI strings centralized in src/i18n/en.json so new languages drop in later.",
-      "rationale": "Fresh start over forking the dead Pascal/GPL original (Ircama/qr-code-generator, last push 2018, Lazarus UI, GPL-2.0 — a fork is a 100% rewrite under license obligation). Plan finalized with user: name QR Code Forge, MIT license, English UI with i18n-ready string table, distribution via GitHub Releases + local Flatpak build (no Flathub submission).",
-      "rejected": "Forking Ircama/qr-code-generator (dead Pascal/GPL code, full rewrite anyway). Tauri 2 (Rust toolchain overhead — user picked Electron). PySide6 (heavier UI work). Flathub publication (user chose GitHub Releases + Flatpak build instead).",
+      "rationale": "Foundation card of the 11-card plan decided with the user (scratch over forking the dead Pascal/GPL original). Everything else builds on it.",
+      "rejected": "Forking Ircama/qr-code-generator; Tauri 2; PySide6; Flathub publication (GitHub Releases + local Flatpak chosen).",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "core",
         "setup"
       ],
       "createdAt": 1788518969977,
-      "updatedAt": 1788521029147
+      "updatedAt": 1788609801533,
+      "summary": "Electron 33 + Vite 5 + TS scaffold complete: package.json (QR Code Forge 1.0.0, MIT, io.github.lakisan1.qrcodeforge), electron/main.ts+preload.ts (contextIsolation, sandboxed renderer, minimal IPC: export:save / clipboard:image / app:info), src/ renderer, electron-builder.yml, vite.config.ts, tsconfigs, i18n string table (en), LICENSE. Verified: typecheck ✓ 12 tests ✓ builds ✓ xvfb smoke-test ✓ (window renders, typed URL → live QR)."
     },
     {
       "id": "card-55d5fd6a-893c-41ed-8365-4572c3e49871",
       "title": "Core generation UI: type selector + content input + live preview",
       "description": "Content editor (plain text/URL) with tabbed type selector delegating to the structured content types card; live debounced preview; module size, quiet-zone margin, error-correction level (L/M/Q/H).",
-      "rationale": "The MVP heart: pick a content type, type content, see the QR update live. Everything else (styling, logo/emoji, export) hangs off this preview loop.",
+      "rationale": "MVP heart of the app; all other features hang off this preview loop.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "core"
       ],
       "createdAt": 1788518969990,
-      "updatedAt": 1788521029160
+      "updatedAt": 1788613180478,
+      "summary": "Tabbed type selector (Text/URL, WiFi, Contact, Email, SMS, Phone, Location, WhatsApp) with per-type forms (src/ui/contentForms.ts), debounced live preview via QRPreview class (src/core/encode.ts: qr-code-styling for QR, dedicated canvas for Aztec/DataMatrix), payload char counter, module-dimension status line (\"33 × 33 modules\"). Verified in xvfb GUI test: typing a URL updates the preview live.",
+      "rejected": "A generic single-textarea input (loses per-type validation and structure); per-type declarative field defs with validation were chosen instead."
     },
     {
       "id": "card-5a74b735-0b21-4706-8082-3d51c3a047ce",
       "title": "Styled dots & colors",
       "description": "Dots shape (square/rounded/dots/classy), corner-square styles, foreground solid or linear/radial gradient, background color/transparent. Mapped straight onto qr-code-styling options.",
-      "rationale": "User-selected v1 feature. qr-code-styling ships all of it; wiring options into the shared settings store is the only work.",
-      "rejected": "Hand-rolled canvas dot styling — reinventing what the library already does well.",
+      "rationale": "User-selected v1 feature; library shipped all of it, only wiring was needed.",
+      "rejected": "Hand-rolled canvas dot styling.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features"
       ],
       "createdAt": 1788518970003,
-      "updatedAt": 1788518970003
+      "updatedAt": 1788609801565,
+      "summary": "Full qr-code-styling option surface wired through the StyleState store (src/core/store.ts) into src/ui/stylePanel.ts: dot shape, corner square/dot shapes, solid vs linear/radial gradient (angle, 2 color stops), background color + transparent toggle, quiet-zone margin, EC level L/M/Q/H. Persisted to localStorage (forge.style.v1)."
     },
     {
       "id": "card-9bff0a62-92ea-415b-a40b-3d50ccc9c619",
@@ -49,41 +53,45 @@
       "description": "Two center-art sources sharing one pipeline: (a) image upload (file picker + drag&drop) with size/margin sliders and hide-background-dots toggle; (b) searchable emoji picker — render chosen emoji to an offscreen canvas via color-emoji font (Segoe UI Emoji on Windows, Noto Color Emoji — ships in the Freedesktop Flatpak runtime) → dataURL → same image path. When center art is present, force error-correction H; offer a white/rounded backing tile behind emoji (color glyphs need a quiet background to stay scannable); warn if art covers too many modules.",
       "rationale": "User explicitly asked to add emoji alongside photo-in-the-middle. Reusing the same dataURL image pipeline makes emoji nearly free — the only new work is the picker UI and emoji→canvas rasterization. EC level H is required practice whenever the center is covered.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features"
       ],
       "createdAt": 1788518970015,
-      "updatedAt": 1788520415661
+      "updatedAt": 1788612801837,
+      "summary": "Center art shipped: image upload via file picker + drag & drop onto the preview (src/ui/stylePanel.ts importFileAsDataUrl), searchable emoji picker with 6 categories rasterized through the color-emoji font to a data URL (src/ui/emoji.ts), size/padding sliders, hide-dots-behind-art toggle, white rounded backing tile. Effective style forces EC level H whenever art is present (src/app.ts effectiveStyle).",
+      "rejected": "Rendering emoji as inline SVG text (color-emoji fonts render inconsistently in SVG); canvas rasterization to data URL chosen so emoji flows through the same image pipeline as uploaded logos."
     },
     {
       "id": "card-3a3c59a6-9174-49a9-809e-4532539c3de7",
       "title": "Export PNG / JPG / SVG + copy to clipboard",
       "description": "SVG via qr-code-styling getRawData / own SVG serializer; PNG & JPEG via canvas.toBlob with quality slider; export resolution choice (256–2048 px). Save via IPC → main-process dialog.showSaveDialog → fs write (contextIsolation-clean, Flatpak-portal-friendly). Plus one-click Copy-to-clipboard (user-selected extra): rendered PNG → nativeImage through the IPC bridge to the system clipboard.",
       "rationale": "Core requirement plus the user's chosen v1 extra. Clipboard copy goes through the same main-process bridge as save, so no renderer-side privileged APIs.",
-      "rejected": "Node fs / clipboard access directly in the renderer (breaks contextIsolation and sandbox expectations).",
+      "rejected": "Renderer-side fs/clipboard access (breaks contextIsolation and the sandbox model); all privileged work goes through the minimal IPC bridge (electron/main.ts export:save + clipboard:image).",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features",
         "core"
       ],
       "createdAt": 1788518970028,
-      "updatedAt": 1788521029185
+      "updatedAt": 1788612855094,
+      "summary": "Export shipped (src/ui/exporter.ts + src/app.ts doSave/doCopy): PNG/JPEG/SVG via renderExport, size 256–2048 px, JPEG quality slider; Save goes through IPC → main-process dialog.showSaveDialog → fs write; one-click Copy PNG → nativeImage → system clipboard."
     },
     {
       "id": "card-b3f2f389-bccb-4a23-80f0-63d5720dc341",
       "title": "Extra barcode types: Aztec + DataMatrix (+ evaluate Micro QR)",
       "description": "Use @zxing/library MultiFormatWriter to encode Aztec and DataMatrix into module matrices, then render them through the SAME styled canvas/SVG renderer used for QR so dot shapes, gradients and logo work on every type. Micro QR: evaluate — no mature JS encoder exists (ZXing lacks it); cut unless a solid lib appears.",
       "rationale": "User wants parity with the original's symbologies (it did QR, Aztec, DataMatrix, Micro QR via zint/Pascal code). Sharing one styled renderer keeps the feature set uniform across types.",
-      "rejected": "Rendering ZXing output with its plain bitmap writer (no styling). Micro QR up front (no reliable JS encoder; likely dropped after evaluation).",
+      "rejected": "Micro QR — cut: no mature JS encoder exists (ZXing has none); hand-rolling an encoder was not worth the correctness risk. A separate canvas path for Aztec/DataMatrix was rejected — one shared styled renderer keeps dot shapes/gradients/logo working on every kind.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features"
       ],
       "createdAt": 1788518970040,
-      "updatedAt": 1788518970040
+      "updatedAt": 1788612855108,
+      "summary": "Aztec + Data Matrix shipped (src/core/encode.ts): @zxing/library MultiFormatWriter encodes to a module matrix, rendered through the same styled canvas/SVG renderer (src/core/render2d.ts) so dot shapes, gradients and center art work on all three kinds. UI: QR/Aztec/DataMatrix segmented switch. Micro QR evaluated and cut."
     },
     {
       "id": "card-a660cd1e-8372-49ac-abb2-08dc72e13750",
@@ -91,12 +99,14 @@
       "description": "Store content + full options snapshot (styling, logo ref, type) in localStorage or electron-store; click to restore & regenerate; cap at ~20 entries; never store image blobs — regenerate from options.",
       "rationale": "User-selected v1 feature. Snapshots are tiny (JSON) and regenerate deterministically, so history stays cheap and the list survives app restarts.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features"
       ],
       "createdAt": 1788518970053,
-      "updatedAt": 1788518970053
+      "updatedAt": 1788612855121,
+      "summary": "History shipped (src/ui/historyPanel.ts + store.addHistory/removeHistory/clearHistory): every save/copy pushes an entry (type, barcode, title, payload preview, content + full style snapshot), deduped, max 20, persisted to localStorage (forge.history.v1); one click restores content + style.",
+      "rejected": "Persisting history to disk via main process (needs new IPC + file management); localStorage keeps it sandboxed and zero-config, capped at 20 entries."
     },
     {
       "id": "card-53943a1e-4b49-41fd-b976-62c337b16b65",
@@ -104,12 +114,14 @@
       "description": "CSS custom properties design system: cards, rounded corners, soft shadows, accent color, dark/light toggle persisted; single-window responsive layout (editor left, preview right, options panel).",
       "rationale": "\"Modernise the UI\" is an explicit goal — the whole reason to not fork. A small token-based CSS system keeps the modern look consistent without a UI framework dependency.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "ui"
       ],
       "createdAt": 1788518970064,
-      "updatedAt": 1788518970064
+      "updatedAt": 1788613180494,
+      "summary": "Modern UI shipped: two-column layout (content forms left, preview/style/export/history right), CSS variables theme system with dark (default) + light toggle persisted per user (src/ui/theme.ts), custom tabs/segmented buttons/range inputs, i18n-ready string table (src/i18n/en.json, 128 keys) — all UI text flows through t().",
+      "rejected": "CSS framework (Tailwind) — hand-rolled CSS variables keep the bundle tiny and avoid a build dependency; a native menubar was dropped in favor of in-window controls with a chrome-less window on Windows/Linux."
     },
     {
       "id": "card-605b7c47-480f-42bc-a240-3cb9b8fb91c7",
@@ -117,41 +129,45 @@
       "description": "electron-builder targets: nsis (installer, per-user) + portable exe; app icon embedded; document that an unsigned exe triggers SmartScreen warnings — optional code signing later.",
       "rationale": "User wants Windows packaging; NSIS+portable covers both install and USB-stick use with zero extra tooling beyond electron-builder.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "packaging"
       ],
       "createdAt": 1788518970077,
-      "updatedAt": 1788518970077
+      "updatedAt": 1788612936034,
+      "summary": "Windows packaging shipped: npm run dist:win → NSIS installer (QR-Code-Forge-Setup-1.0.0.exe) + portable exe (QR-Code-Forge-Portable-1.0.0.exe) via electron-builder with rcedit under a fresh wine prefix + xvfb. Both artifacts verified in release/ and published to the GitHub v1.0.0 release.",
+      "rejected": "Code-signing the Windows binaries (no certificate available — binaries ship unsigned with a documented SmartScreen workaround); electron-updater auto-update (requires signed binaries to be trustworthy)."
     },
     {
       "id": "card-02eec8a2-55bd-4411-a03a-9f81ccfeea0f",
       "title": "Linux Flatpak packaging (io.github.<user>.qrcodeforge)",
       "description": "flatpak-builder manifest: Freedesktop 24.08 runtime + org.electronjs.Electron2.BaseApp; npm ci && build renderer && electron-builder --dir, ship linux-unpacked. finish-args: --share=ipc, --socket=x11, --socket=wayland, --device=dri, --talk-name=org.freedesktop.portal.Desktop, --filesystem=home (for saves). Include .desktop, appstream metainfo (kept Flathub-ready), icons for io.github.<user>.qrcodeforge. Verify with flatpak-builder locally. DISTRIBUTION DECISION: GitHub Releases + locally-built Flatpak; no Flathub submission overhead.",
       "rationale": "Flatpak is the user's preferred Linux format; the BaseApp approach is the Flathub-blessed Electron packaging method and works on any distro. User chose GitHub Releases distribution, so metainfo stays minimal but Flathub-compatible in case they change their mind.",
-      "rejected": "AppImage-in-Flatpak shortcut (non-standard; fallback only). deb/rpm targets (user prefers Flatpak). Flathub submission (user opted for GitHub Releases instead).",
+      "rejected": "Flathub publication (decided with the user: GitHub Releases + local Flatpak for now); Tauri/AppImage-only fallbacks.",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "packaging"
       ],
       "createdAt": 1788518970089,
-      "updatedAt": 1788521029198
+      "updatedAt": 1788612936050,
+      "summary": "Flatpak shipped: manifest flatpak/io.github.lakisan1.qrcodeforge.yml (Freedesktop 24.08 runtime, Electron BaseApp, zypak sandboxing, npm ci with --share=network via manifest build-args), scripts/build-flatpak.sh (pins --default-branch=stable, --bundle emits a single-file .flatpak). Built, installed locally, bundle verified in release/flatpak/, published to the GitHub v1.0.0 release. Launch verified under Xvfb: zypak spawns the Electron binary inside the sandbox."
     },
     {
       "id": "card-f71e0ba5-c60a-4e89-aec9-4581b897390d",
       "title": "Structured content types: WiFi, vCard, Email/SMS/phone, Geo, WhatsApp",
       "description": "Tab switcher above the content editor. WiFi: SSID/password/encryption/hidden → standard WIFI: payload. vCard: name/phone/email/org → VCARD 3.0. Email/SMS/phone: mailto:/SMSTO:/tel: with subject/body. Geo: lat/lng fields → geo: URI. WhatsApp: phone + optional prefilled message → https://wa.me/<phone>?text=… (official click-to-chat URL; scanning opens the chat). Each type is a payload-string builder — styling, logo/emoji and export stay payload-agnostic.",
       "rationale": "User selected every structured type plus WhatsApp when finalizing the plan. All of them reduce to small form UIs + serializer functions, so the real cost is form layout, not QR plumbing.",
-      "rejected": "MeCard as a second contact format (vCard covers it). WhatsApp deep-link schemes beyond wa.me (unnecessary — wa.me is the official click-to-chat URL). Preset templates and batch mode (declined by user for v1; revisit later).",
+      "rejected": "Third-party form libraries; per-type hard-coded UI. Declarative field defs keep new content types a data-only change (schema lives in src/core/payload.ts CONTENT_TYPES).",
       "sourceSessionId": "session-a928f759-45f8-4782-8c35-72db085dbd71",
-      "status": "todo",
+      "status": "done",
       "tags": [
         "features",
         "core"
       ],
       "createdAt": 1788521029173,
-      "updatedAt": 1788521029173
+      "updatedAt": 1788612936067,
+      "summary": "Structured content types shipped (src/core/payload.ts + src/ui/contentForms.ts): Text/URL, WiFi (SSID/password/security/hidden), vCard contact, Email (to/subject/body), SMS, phone, geo location (lat/lng validated), WhatsApp (wa.me link with prefilled text). 12 unit tests cover the payload builders (tests/payload.test.ts)."
     }
   ]
 }

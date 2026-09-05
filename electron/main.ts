@@ -73,13 +73,14 @@ function filtersFor(mime: string, defaultName: string): Electron.FileFilter[] {
   const ext = defaultName.split('.').pop() ?? 'png'
   if (mime === 'image/svg+xml') return [{ name: 'SVG image', extensions: ['svg'] }]
   if (mime === 'image/jpeg') return [{ name: 'JPEG image', extensions: ['jpg', 'jpeg'] }]
+  if (mime === 'application/zip') return [{ name: 'ZIP archive', extensions: ['zip'] }]
   return [{ name: 'PNG image', extensions: ['png'] }, { name: 'All files', extensions: [ext] }]
 }
 
 ipcMain.handle('export:save', async (_event, req: SaveExportRequest) => {
   if (!mainWindow) return { saved: false }
   const { canceled, filePath } = await dialog.showSaveDialog(mainWindow, {
-    title: 'Save QR code',
+    title: req.mime === 'application/zip' ? 'Save batch archive' : 'Save QR code',
     defaultPath: req.defaultName,
     filters: filtersFor(req.mime, req.defaultName)
   })

@@ -778,3 +778,98 @@ select.input {
     overflow: auto;
   }
 }
+
+/* ================= batch modal ================= */
+.batch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgb(5 8 20 / 0.55);
+  backdrop-filter: blur(6px);
+}
+.batch-dialog {
+  width: min(640px, 100%);
+  max-height: min(86vh, 780px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+.batch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.batch-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+}
+.batch-hint {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.batch-input {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  width: 100%;
+  resize: vertical;
+  min-height: 140px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  color: var(--text);
+}
+.batch-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent1) 55%, transparent);
+  outline-offset: 1px;
+}
+.batch-file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+}
+.batch-file-row .btn {
+  flex: none;
+  padding: 7px 12px;
+  font-size: 12.5px;
+}
+.batch-summary {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.batch-summary.ok {
+  color: var(--accent2);
+}
+.batch-summary.bad {
+  color: var(--danger);
+}
+.batch-progress {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dim);
+  min-height: 18px;
+}
+.batch-dialog .export-buttons {
+  margin-top: 2px;
+}

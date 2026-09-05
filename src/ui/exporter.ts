@@ -1,7 +1,7 @@
 import { store } from '../core/store'
 import { t } from '../i18n'
 
-const SIZES = [256, 512, 768, 1024, 2048]
+const SIZES = [256, 512, 768, 1024, 2048, 4096]
 
 function el<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -17,6 +17,7 @@ function el<K extends keyof HTMLElementTagNameMap>(
 export interface ExportCallbacks {
   onSave: () => void
   onCopy: () => void
+  onBatch: () => void
 }
 
 export function renderExportRow(container: HTMLElement, cb: ExportCallbacks): void {
@@ -69,6 +70,9 @@ export function renderExportRow(container: HTMLElement, cb: ExportCallbacks): vo
   const copy = el('button', 'btn', `📋 ${t('export.copy')}`) as HTMLButtonElement
   copy.type = 'button'
   copy.addEventListener('click', cb.onCopy)
-  buttons.append(save, copy)
+  const batch = el('button', 'btn', `📦 ${t('batch.open')}`) as HTMLButtonElement
+  batch.type = 'button'
+  batch.addEventListener('click', cb.onBatch)
+  buttons.append(save, copy, batch)
   container.appendChild(buttons)
 }
