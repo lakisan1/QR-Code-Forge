@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'"
+    />
+    <title>QR Code Forge</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="topbar">
+        <div class="brand">
+          <img id="brand-icon" src="./assets/logo.svg" alt="QR Code Forge logo" class="brand-icon" />
+          <div class="brand-text">
+            <span class="brand-name">QR Code Forge</span>
+            <span class="brand-tagline"></span>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <div class="barcode-switch" id="barcode-switch" role="tablist"></div>
+          <button id="theme-toggle" class="icon-btn" type="button" title=""></button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel editor-panel">
+          <nav class="tabs" id="type-tabs" role="tablist"></nav>
+          <div class="form-stack" id="content-form"></div>
+          <div class="payload-box" id="payload-box" hidden>
+            <div class="payload-line">
+              <span class="payload-label"></span>
+              <span class="payload-chars" id="payload-chars"></span>
+            </div>
+            <code class="payload-text" id="payload-text"></code>
+          </div>
+        </section>
+
+        <section class="panel preview-panel">
+          <div class="qr-stage" id="qr-stage">
+            <div id="qr-host"></div>
+            <canvas id="qr-matrix"></canvas>
+            <div class="empty-hint" id="empty-hint"></div>
+          </div>
+          <div class="modules-line" id="modules-line"></div>
+          <div class="export-box" id="export-row"></div>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="style-panel" id="style-panel"></div>
+          <div class="history-panel" id="history-panel"></div>
+        </section>
+      </main>
+
+      <footer class="statusbar">
+        <span class="status-msg" id="status-msg"></span>
+        <span class="footer-version" id="footer-version"></span>
+      </footer>
+    </div>
+    <script type="module" src="/app.ts"></script>
+  </body>
+</html>

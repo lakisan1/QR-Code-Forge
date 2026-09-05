@@ -1,0 +1,52 @@
+appId: io.github.lakisan1.qrcodeforge
+productName: QR Code Forge
+copyright: Copyright © 2026 lakisan1
+
+# Installer/bundle artifacts go to release/ — vite renders into dist/, and
+# mixing them would let electron-builder re-package stale installers into the
+# app on the next run.
+directories:
+  output: release
+  buildResources: build
+
+# Renderer (dist/) and main-process (dist-electron/) are fully bundled —
+# no node_modules needed at runtime.
+files:
+  - dist/**
+  - dist-electron/**
+  - package.json
+  - build/icon.png
+  - build/icons/**
+  - "!**/.vite/**"
+
+asar: true
+compression: maximum
+
+win:
+  icon: build/icon.png
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: QR Code Forge
+  artifactName: QR-Code-Forge-Setup-${version}.${ext}
+
+portable:
+  artifactName: QR-Code-Forge-Portable-${version}.${ext}
+
+linux:
+  category: Utility
+  maintainer: lakisan1
+  icon: build/icons
+  target:
+    - target: AppImage
+      arch: [x64]
+  artifactName: QR-Code-Forge-${version}-${arch}.${ext}

@@ -1,0 +1,55 @@
+app-id: io.github.lakisan1.qrcodeforge
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '24.08'
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node22
+command: start-qrcodeforge
+separate-locales: false
+
+finish-args:
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --device=dri
+  # save/copy flows write into the user's home (portal file chooser is the
+  # primary path; home access keeps drag-out and custom paths working)
+  - --filesystem=home
+
+modules:
+  - name: qrcodeforge
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node22/bin
+      env:
+        npm_config_cache: /run/build/qrcodeforge/flatpak-cache/npm
+        ELECTRON_CACHE: /run/build/qrcodeforge/flatpak-cache/electron
+        electron_config_cache: /run/build/qrcodeforge/flatpak-cache/electron
+    build-commands:
+      # -- build the renderer and the electron main process from source --
+      - npm ci
+      - npm run build:renderer
+      - npm run build:main
+      # -- app payload: renderer bundle + main process + electron binary --
+      - mkdir -p /app/qrcodeforge
+      - cp -r dist /app/qrcodeforge/dist
+      - cp -r dist-electron /app/qrcodeforge/dist-electron
+      - cp package.json /app/qrcodeforge/package.json
+      - cp -r node_modules/electron/dist /app/qrcodeforge/bin
+      # zypak replaces the SUID chrome-sandbox inside the flatpak sandbox
+      - rm -f /app/qrcodeforge/bin/chrome-sandbox
+      # -- desktop integration --
+      - install -Dm755 flatpak/start.sh /app/bin/start-qrcodeforge
+      - install -Dm644 flatpak/io.github.lakisan1.qrcodeforge.desktop -t /app/share/applications
+      - install -Dm644 flatpak/io.github.lakisan1.qrcodeforge.metainfo.xml -t /app/share/metainfo
+      - install -Dm644 flatpak/icons/128x128.png /app/share/icons/hicolor/128x128/apps/io.github.lakisan1.qrcodeforge.png
+      - install -Dm644 flatpak/icons/256x256.png /app/share/icons/hicolor/256x256/apps/io.github.lakisan1.qrcodeforge.png
+      - install -Dm644 flatpak/icons/512x512.png /app/share/icons/hicolor/512x512/apps/io.github.lakisan1.qrcodeforge.png
+      - install -Dm644 LICENSE -t /app/share/licenses/io.github.lakisan1.qrcodeforge
+    sources:
+      # clean staged tree (no node_modules / build outputs) prepared by
+      # scripts/build-flatpak.sh — see that script before running manually
+      - type: dir
+        path: ..

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.lakisan1.qrcodeforge</id>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <name>QR Code Forge</name>
+  <summary>Forge beautiful QR codes</summary>
+  <description>
+    <p>
+      QR Code Forge is a modern desktop QR code generator. Pick a content type,
+      style the code, and export it — all offline, no telemetry.
+    </p>
+    <ul>
+      <li>QR codes with styled dots (square, rounded, dots, classy) and solid or gradient colors</li>
+      <li>Logo, photo, or emoji in the middle of the code (error correction auto-raised)</li>
+      <li>Structured payloads: WiFi join, vCard contact, Email, SMS, phone, geo location, WhatsApp</li>
+      <li>Aztec and Data Matrix 2D barcodes</li>
+      <li>Export as PNG, JPG, or SVG at up to 4096 px, or copy straight to the clipboard</li>
+      <li>History of recent codes, dark and light themes, i18n-ready string table</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.lakisan1.qrcodeforge.desktop</launchable>
+  <url type="homepage">https://github.com/lakisan1/QR-Code-Forge</url>
+  <url type="bugtracker">https://github.com/lakisan1/QR-Code-Forge/issues</url>
+  <developer_name>lakisan1</developer_name>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/lakisan1/QR-Code-Forge/main/docs/screenshot.png</image>
+      <caption>Main window with a styled gradient QR code</caption>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.0" date="2026-09-05">
+      <description>
+        <p>First release.</p>
+      </description>
+    </release>
+  </releases>
+  <content_rating type="oars-1.1" />
+  <provides>
+    <binary>start-qrcodeforge</binary>
+  </provides>
+</component>

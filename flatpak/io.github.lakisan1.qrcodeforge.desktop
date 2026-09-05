@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=QR Code Forge
+GenericName=QR code generator
+Comment=Forge beautiful QR codes — styled dots and gradients, logo/emoji in the middle, WiFi/vCard payloads, PNG/JPG/SVG export
+Exec=start-qrcodeforge
+Icon=io.github.lakisan1.qrcodeforge
+Terminal=false
+Categories=Utility;
+Keywords=qr;code;barcode;generator;aztec;datamatrix;wifi;vcard;
+StartupWMClass=QR Code Forge
