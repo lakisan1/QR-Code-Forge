@@ -49,8 +49,8 @@ flatpak install --user -y --noninteractive flathub \
   org.freedesktop.Sdk.Extension.node22//24.08
 
 echo "==> flatpak-builder"
-# --share=network: npm ci must reach the registry inside the build sandbox
-flatpak-builder --user --share=network --force-clean \
+# --default-branch=stable: keep the exported branch aligned with build-bundle
+flatpak-builder --user --default-branch=stable --force-clean \
   $([ "$DO_INSTALL" = 1 ] && echo --install) \
   --repo="$REPO_DIR" "$BUILD_DIR/build" \
   "$STAGING/flatpak/$APP_ID.yml"

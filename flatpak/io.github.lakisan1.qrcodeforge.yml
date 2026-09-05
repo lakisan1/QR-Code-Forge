@@ -23,6 +23,9 @@ modules:
     buildsystem: simple
     build-options:
       append-path: /usr/lib/sdk/node22/bin
+      # npm ci must reach the registry inside the build sandbox
+      build-args:
+        - --share=network
       env:
         npm_config_cache: /run/build/qrcodeforge/flatpak-cache/npm
         ELECTRON_CACHE: /run/build/qrcodeforge/flatpak-cache/electron
