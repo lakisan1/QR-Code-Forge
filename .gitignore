@@ -8,6 +8,7 @@ release/
 .flatpak-src/
 dist-flatpak/
 build-flatpak/
+.flatpak-builder/
 *.flatpak
 *.AppImage
 out/
