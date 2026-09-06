@@ -28,10 +28,10 @@ Grab the latest build from
 
 | Platform | Artifact |
 | --- | --- |
-| Windows (installer) | `QR-Code-Forge-Setup-1.0.0.exe` |
-| Windows (portable) | `QR-Code-Forge-Portable-1.0.0.exe` |
-| Linux (AppImage) | `QR-Code-Forge-1.0.0-x86_64.AppImage` |
-| Linux (Flatpak) | `QR-Code-Forge-1.0.0.flatpak` — install with `flatpak install ./QR-Code-Forge-1.0.0.flatpak` |
+| Windows (installer) | `QR-Code-Forge-Setup-1.1.0.exe` |
+| Windows (portable) | `QR-Code-Forge-Portable-1.1.0.exe` |
+| Linux (AppImage) | `QR-Code-Forge-1.1.0-x86_64.AppImage` |
+| Linux (Flatpak) | `QR-Code-Forge-1.1.0.flatpak` — install with `flatpak install ./QR-Code-Forge-1.1.0.flatpak` |
 
 ## Build from source
 
