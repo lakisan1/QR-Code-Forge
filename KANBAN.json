@@ -168,6 +168,21 @@
       "createdAt": 1788521029173,
       "updatedAt": 1788612936067,
       "summary": "Structured content types shipped (src/core/payload.ts + src/ui/contentForms.ts): Text/URL, WiFi (SSID/password/security/hidden), vCard contact, Email (to/subject/body), SMS, phone, geo location (lat/lng validated), WhatsApp (wa.me link with prefilled text). 12 unit tests cover the payload builders (tests/payload.test.ts)."
+    },
+    {
+      "id": "card-54baafcc-2646-4b35-9d0b-3f2df63d60b5",
+      "title": "Batch generation: list/CSV → ZIP of styled codes",
+      "summary": "Shipped in 6cb4f89: src/core/batch.ts (RFC-4180-style parser: header mapping name/content both orders, slug+dedupe naming, 200-entry cap, \\n escape), src/ui/batchModal.ts (live parse summary, format/size pick, per-item progress, STORE compression for rasters / DEFLATE for SVG), zip filter + adaptive dialog title in electron/main.ts. 13 new unit tests (25 total), CDP smoke test (scripts/smoke-cdp.mjs) verified the modal live in the built app (SMOKE-OK).",
+      "rejected": "Server-side or main-process rendering (renderer already owns the styled pipeline); per-format UI separate from the main export settings (kept format/size local to the modal, initialized from the store); unbounded input (capped at 200 entries to keep ZIP memory sane); streaming multi-line quoted CSV records (one code per line only, with \\n escape inside quotes for multi-line payloads).",
+      "sourceSessionId": "session-8e90ca12-7be7-40d4-872a-33fdf269afcc",
+      "status": "done",
+      "tags": [
+        "features",
+        "core"
+      ],
+      "createdAt": 1788616213813,
+      "updatedAt": 1788616429579,
+      "rationale": "Single-code export existed but bulk workflows (event badges, asset tags, menu links) needed one-pass generation; reusing the existing styled renderer + save IPC kept this a renderer-only feature with one tiny main-process filter addition."
     }
   ]
 }
